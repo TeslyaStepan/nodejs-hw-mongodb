@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const parseType = (contactType) => {
   const isString = typeof contactType === "string";
 
@@ -16,7 +17,7 @@ const parseType = (contactType) => {
   }
 };
 
-const parseIsFavorite = (favorite) => {
+const parseIsFavourite = (favorite) => {
   if (typeof favorite === "boolean") {
     return favorite;
   }
@@ -40,13 +41,13 @@ const parseIsFavorite = (favorite) => {
 };
 
 export const parseFilterParams = (query) => {
-  const { type, isFavorite } = query;
+  const { type } = query;
 
   const parsedType = parseType(type);
-  const parsedIsFavorite = parseIsFavorite(isFavorite);
+  const parsedIsFavourite = parseIsFavourite(isFavourite);
 
   return {
     type: parsedType,
-    isFavorite: parsedIsFavorite,
+    isFavourite: parsedIsFavourite,
   };
 };

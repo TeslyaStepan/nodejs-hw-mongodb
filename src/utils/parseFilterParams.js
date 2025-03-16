@@ -17,12 +17,12 @@ const parseType = (contactType) => {
   }
 };
 
-const parseIsFavourite = (favorite) => {
-  if (typeof favorite === "boolean") {
-    return favorite;
+const parseIsFavourite = (favourite) => {
+  if (typeof favourite === "boolean") {
+    return favourite;
   }
-  if (typeof favorite === "string") {
-    const tolowercase = favorite.toLowerCase();
+  if (typeof favourite === "string") {
+    const tolowercase = favourite.toLowerCase();
 
     if (["true", "1", "yes", "y", "on"].includes(tolowercase)) {
       return true;
@@ -33,15 +33,15 @@ const parseIsFavourite = (favorite) => {
     }
   }
 
-  if (typeof favorite === "number") {
-    return favorite !== 0;
+  if (typeof favourite === "number") {
+    return favourite !== 0;
   }
 
   return null;
 };
 
 export const parseFilterParams = (query) => {
-  const { type } = query;
+  const { type, isFavourite } = query;
 
   const parsedType = parseType(type);
   const parsedIsFavourite = parseIsFavourite(isFavourite);

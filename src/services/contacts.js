@@ -39,7 +39,7 @@ export const getAllContacts = async ({
 };
 
 export const getContactById = async (contactId, userId) => {
-  const contact = await contactsCollection.findById({ contactId, userId });
+  const contact = await contactsCollection.findOne({ contactId, userId });
   return contact;
 };
 
@@ -54,7 +54,7 @@ export const patchContact = async (
   payload,
   options = {}
 ) => {
-  const rawResult = await contactsCollection.findByIdAndUpdate(
+  const rawResult = await contactsCollection.findOneAndUpdate(
     { _id: contactId, userId },
     payload,
     { new: true, includeResultMetadata: true, ...options }

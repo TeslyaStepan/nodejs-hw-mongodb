@@ -32,6 +32,9 @@ export const getAllContactsController = async (req, res, next) => {
 
 export const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
+
+  console.log("📌 Отримано запит на контакт ID:", contactId);
+  console.log("📌 Авторизований користувач:", req.user);
   const contact = await getContactById(contactId, req.user._id);
 
   if (!contact) {

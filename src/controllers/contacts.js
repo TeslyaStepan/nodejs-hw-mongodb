@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 import createHttpError from "http-errors";
 import {
   deleteContact,
@@ -9,6 +11,9 @@ import {
 import { parsePaginationParams } from "../utils/parsePaginationParams.js";
 import { parseSortParams } from "../utils/parseSortParams.js";
 import { parseFilterParams } from "../utils/parseFilterParams.js";
+import { saveFileToUploadDir } from "../utils/saveFileToUploadDir.js";
+import { saveFileToCloudinary } from "../utils/saveFileToCloudinary.js";
+import { getEnvVar } from "../utils/getEnvVar.js";
 
 export const getAllContactsController = async (req, res, next) => {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -32,9 +37,6 @@ export const getAllContactsController = async (req, res, next) => {
 
 export const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
-
-  console.log("📌 Отримано запит на контакт ID:", contactId);
-  console.log("📌 Авторизований користувач:", req.user);
   const contact = await getContactById(contactId, req.user._id);
 
   if (!contact) {
@@ -49,8 +51,20 @@ export const getContactByIdController = async (req, res, next) => {
 };
 
 export const postNewContactController = async (req, res, next) => {
+  const photo = req.file;
+  let photoUrl;
+
+  if (photo) {
+    if (getEnvVar("ENABLE_CLOUDINARY") === "true") {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else {
+      photoUrl = await saveFileToUploadDir(photo);
+    }
+  }
+
   const newContact = await postNewContact({
     ...req.body,
+    photo: photoUrl,
     userId: req.user._id,
   });
 
@@ -63,11 +77,30 @@ export const postNewContactController = async (req, res, next) => {
 
 export const patchContactController = async (req, res, next) => {
   const { contactId } = req.params;
+  const userId = req.user?.id;
+  const photo = req.file;
 
-  const result = await patchContact(contactId, req.user._id, req.body);
+  if (!mongoose.Types.ObjectId.isValid(contactId)) {
+    return next(createHttpError(400, "Invalid contact ID"));
+  }
+
+  let photoUrl;
+
+  if (photo) {
+    if (getEnvVar("ENABLE_CLOUDINARY") === "true") {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else {
+      photoUrl = await saveFileToUploadDir(photo);
+    }
+  }
+
+  const result = await patchContact(contactId, userId, {
+    ...req.body,
+    photo: photoUrl,
+  });
 
   if (!result) {
-    throw createHttpError(404, "Contact not found");
+    return next(createHttpError(404, "Contact not found"));
   }
 
   const status = result.isNew ? 201 : 200;

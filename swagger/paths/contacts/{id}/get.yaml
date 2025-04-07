@@ -1,0 +1,27 @@
+tags:
+  - Contacts
+operationId: getContactById
+summary: Retrieve a contact's full information by its unique identifier.
+description: This endpoint allows you to get a contact by its unique ID.
+security:
+  - bearerAuth: []
+parameters:
+  - name: id
+    in: path
+    required: true
+    description: ID of the contact to retrieve
+    schema:
+      type: string
+responses:
+  "200":
+    description: Successfully retrieved the contact
+    content:
+      application/json:
+        schema:
+          $ref: "../../../components/schemas/Contact.yaml"
+  "404":
+    $ref: "../../../components/responses/404.yaml"
+  "400":
+    $ref: "../../../components/responses/400.yaml"
+  "401":
+    $ref: "../../../components/responses/401.yaml"

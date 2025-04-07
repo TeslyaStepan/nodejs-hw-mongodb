@@ -1,0 +1,6 @@
+name: isFavourite
+in: query
+description: Filter by favourite status
+required: false
+schema:
+  type: boolean

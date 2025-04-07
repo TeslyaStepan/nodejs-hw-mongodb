@@ -1,0 +1,7 @@
+name: type
+in: query
+description: Contact type filter
+required: false
+schema:
+  type: string
+  enum: [work, home, personal]

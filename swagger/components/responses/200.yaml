@@ -1,0 +1,16 @@
+description: Request was successful
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+        message:
+          type: string
+          example: "Success"

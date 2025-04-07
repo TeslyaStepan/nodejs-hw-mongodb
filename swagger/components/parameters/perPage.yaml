@@ -1,0 +1,8 @@
+name: perPage
+in: query
+description: Number of items per page
+required: false
+schema:
+  type: integer
+  minimum: 1
+  default: 10

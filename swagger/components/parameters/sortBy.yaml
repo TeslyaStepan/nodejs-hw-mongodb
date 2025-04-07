@@ -1,0 +1,8 @@
+name: sortBy
+in: query
+description: Sort field
+required: false
+schema:
+  type: string
+  enum: [name]
+  default: name

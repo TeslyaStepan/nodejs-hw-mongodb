@@ -33,6 +33,21 @@ requestBody:
             type: string
             format: binary
             description: Contact's updated photo (optional)
+          contactType:
+            type: string
+            enum: ["work", "home", "personal"]
+            example: "personal"
+          isFavourite:
+            type: boolean
+            description: Indicates if the contact is marked as favourite
+            example: true
+      example:
+        email: "tetetetete@gmail.com"
+        contactType: "home"
+        phoneNumber: "+123456789"
+        name: "Jane Doe"
+        photo: "file data"
+        isFavourite: false
 responses:
   200:
     description: Successfully updated contact details
@@ -44,3 +59,5 @@ responses:
     $ref: "../../../components/responses/400.yaml"
   "404":
     $ref: "../../../components/responses/404.yaml"
+  "500":
+    $ref: ../../../components/responses/500.yaml

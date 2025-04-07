@@ -11,7 +11,7 @@ tags:
     description: Operations about contacts.
 servers:
   - url: http://127.0.0.1:3000
-  - url: https://students-base-2.onrender.com
+  - url: https://nodejs-hw-mongodb-ljko.onrender.com
 paths:
   /contacts:
     get:
